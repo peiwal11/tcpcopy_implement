@@ -39,10 +39,12 @@ o	PostgreSQL Online Server: 10.191.7.119:5493
 o	Target Server IP: 10.191.7.13:5499  
 o	Assistant Server: 10.191.7.16  
 3.	Client Range:  
+
 o	10.0.0.0/8
 
 #### Packet caught at online server: online_sr.pcap      
  ![pg_online](pg_online.png)   
+
 
 #### Packet caught at target server: target_sr.pcap         
 Packets purportedly sent from clients (10.190.50.58 and 10.191.7.12) to the target server are actually sent from the online server (MAC: 00:26:6c:f3:15:ae). This indicates that the online server is using tcpcopy to make the target server believe it is directly connecting to the clients.      
