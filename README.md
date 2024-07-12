@@ -40,15 +40,15 @@ o	Target Server IP: 10.191.7.13:5499
 o	Assistant Server: 10.191.7.16  
 3.	Client Range:  
 o	10.0.0.0/8  
-Packet caught at online server: online_sr.pcap  
+Packet caught at online server: online_sr.pcap      
  
 
-Packet caught at target server: target_sr.pcap
-Packets purportedly sent from clients (10.190.50.58 and 10.191.7.12) to the target server are actually sent from the online server (MAC: 00:26:6c:f3:15:ae). This indicates that the online server is using tcpcopy to make the target server believe it is directly connecting to the clients.  
+Packet caught at target server: target_sr.pcap         
+Packets purportedly sent from clients (10.190.50.58 and 10.191.7.12) to the target server are actually sent from the online server (MAC: 00:26:6c:f3:15:ae). This indicates that the online server is using tcpcopy to make the target server believe it is directly connecting to the clients.      
  
  
-Packet caught at assist server: assist_sr.pcap, 
-The assistant server continuously communicates with the online server (10.191.7.15). 
+Packet caught at assist server: assist_sr.pcap,    
+The assistant server continuously communicates with the online server (10.191.7.15).      
 
 
 ### Python Scenario Overview:   
@@ -63,21 +63,24 @@ o	Assistant Server: 10.191.7.16
 3.	Client Range:   
 o	10.190.4.137   
 
-Caught at target server (The target server believes it is directly communicating with the client, but the src mac address is online server’s MAC address)   
- 
-Caught at assistant server (packet send from target to client route through assistant server)   
-Ether src come from target server mac address (00:26:6c:f3:15:ce)   
- 
-
-Caught at assistant server   
-	assistant server constantly communicates with online server (10.191.7.15)    
+#### Caught at target server   
+The target server believes it is directly communicating with the client, but the src mac address is online server’s MAC address 
+ ![target_caught](target_caught_packet.png)   
  
 
+#### Caught at assistant server   
+- packet send from target to client route through assistant server, Ether src come from target server mac address (00:26:6c:f3:15:ce)     
+![assist_caught](target_route_through_assistant_(caught_at_assistant).jpg)   
+ 
+- assistant server constantly communicates with online server (10.191.7.15)    
+ ![assist_caught](assistant_online_constant.png)      
 
-caught by online server:   
-	directly communicate with client (10.190.4.137)   
-	communicate with assistant server (10.191.7.16), as long as there is any action from client   
-	fake the client traffic to target server (but when looking at MAC addr, know it is from online server instead)    
+
+#### Caught by online server:   
+- directly communicate with client (10.190.4.137)   
+- communicate with assistant server (10.191.7.16), as long as there is any action from client   
+- fake the client traffic to target server (but when looking at MAC addr, know it is from online server instead)   
+![online_server](online.png)
     
 ## 4.	At which layer of the ISO network model does tcpcopy operate? How does it intercept request traffic?       
 #### Step 1: Capture Packets   
