@@ -43,7 +43,7 @@ o	Assistant Server: 10.191.7.16
 o	10.0.0.0/8
 
 #### Packet caught at online server: online_sr.pcap      
- ![pg_online](pg_online.png)   
+ ![pg_online](images/pg_online.png)   
 
 
 #### Packet caught at target server: target_sr.pcap         
