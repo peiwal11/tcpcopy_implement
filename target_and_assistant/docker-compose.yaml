@@ -1,0 +1,44 @@
+services:
+  python_app:
+    build: 
+      context: .
+      dockerfile: pydockerfile  
+    networks:
+      mdk:
+        ipv4_address: 192.168.1.10
+    ports:
+      - "10231:10231"
+    container_name: python_app
+    volumes:
+      - ./add_route.sh:/usr/local/bin/add_route.sh
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    command: 
+      /bin/sh -c "/usr/local/bin/add_route.sh && python3 /usr/app/app.py"
+     
+       
+  assistant:
+    build:
+      context: .
+      dockerfile: Dockerfile  
+    image: inter
+    networks:
+      mdk: 
+        ipv4_address: 192.168.1.11
+    ports:
+      - "36524:36524"
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    container_name: intercept
+    command: |
+      -i eth0
+      -F 'tcp and src port 10231'   
+
+networks:
+  mdk:
+    driver: bridge
+    ipam: 
+      config:
+        - subnet: 192.168.1.0/24  
