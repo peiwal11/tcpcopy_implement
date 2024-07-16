@@ -147,3 +147,71 @@ tcpcopy operates by capturing packets at the data link layer (Layer 2) using lib
 - The online server communicates with the assistant server before sending fake traffic to the target server.
 - The online server does not establish a TCP connection with the target server.
 - The target server believes it has a normal connection with the client.
+
+
+
+## 6. Perform this implementation   
+#### On server A (Target server and Assistant server)
+
+1. Clone target_and_assistant folder:
+   ```
+   git clone https://github.com/peiwal11/tcpcopy_implement/tree/master/target_and_assistant
+   ```
+2. Revise parameters
+- Target server set up (`add_route.sh`)
+   ```
+   ip route add 10.190.4.137 via 192.168.1.11 dev eth0     
+   ```  
+     - 10.190.4.137: Client's IP   
+     - 192.168.1.11: Assistant server's IP   
+     - eth0: Network interface   
+- Assistant server set up (`docker-compose.yaml`)
+   ```
+   command: |
+      -i eth0
+      -F 'tcp and src port 10231'
+   ```
+  - eth0: Network interface   
+  - Filter: TCP traffic with source port 10231
+   
+   
+3. Run docker-compose
+   ```
+   HTTP_PROXY=http://your_proxy_if_needed HTTPS_PROXY=http://your_proxy_if_needed docker-compose up -d    
+   ```   
+    
+#### On server B (Online server)  
+
+1. Clone onlineserver folder:
+   ```
+   git clone https://github.com/peiwal11/tcpcopy_implement/tree/master/onlineserver
+   ```     
+2. Revise parameters   
+- Online server set up (`entrypoint.sh`)
+   ```
+   /usr/local/tcpcopy/sbin/tcpcopy -x 9999-10.191.7.16:10231 -s 10.191.7.16 
+   ```
+   - 9999: Online server service port  
+   - 10.191.7.16:10231: Target server IP and port  
+   - 10.191.7.16: Assistant server IP  
+- Python service set up (`app.py`)
+
+3. Run docker-compose
+   ```  
+   HTTP_PROXY=http://your_proxy_if_needed HTTPS_PROXY=http://your_proxy_if_needed docker-compose up -d     
+   ```
+
+#### Alternative: Build and Run Separately
+
+- __Build Image:__
+```
+docker build --build-arg http_proxy=http://proxy_address_if_needed --build-arg https_proxy=http://proxy_address_if_needed -t imagename .   
+```
+
+- __Run Container:__
+```
+docker run --rm --name containername --net=host --cap-add=NET_RAW --cap-add=NET_ADMIN imagename   
+```
+
+
+
