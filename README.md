@@ -8,7 +8,10 @@
      -  (3) _With Python service_
 - (4）_Online server on Server A, Target server and Assistant server on Server B. Target and Assistant servers are assigned new static IPs. Both servers are placed on the same bridge network. Ports are mapped out on the Server B host to facilitate communication with the Online server._   
         
-The code provided is from configuration (4). This repository also shows the results of configurations (2), (3), and (4). The results of configuration (1) are similar to those of configurations (2) and (3).    
+The code provided is for configuration (4). This repository also shows the results of configurations (2), (3), and (4).    
+The results of configuration (1) are similar to those of configurations (2) and (3).      
+Below are several topics about tcpcopy implementations to clarify how tcpcopy works.        
+Topic 2 is related to configuration (4), and topic 3 includes configurations (2) and (3).      
 
 
 ## 1.	What is the role of the intercept component? Why is it designed this way?
