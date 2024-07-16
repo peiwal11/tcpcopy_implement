@@ -5,17 +5,14 @@ FROM registry.inventec/proxy/ubuntu:22.04
 RUN apt-get update && \
     apt-get install -y git build-essential libpcap-dev 
 
-# Clone tcpcopy repository
-RUN git clone https://github.com/session-replay-tools/tcpcopy.git /tcpcopy
-
 # Build tcpcopy
-RUN cd /tcpcopy && \
+RUN git clone https://github.com/session-replay-tools/tcpcopy.git /tcpcopy && \
+    cd /tcpcopy && \
     ./configure && \
     make && \
-    make install
-
-
-RUN chmod +x /usr/local/tcpcopy/sbin/tcpcopy 
+    make install && \
+    chmod +x /usr/local/tcpcopy/sbin/tcpcopy 
+    
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
