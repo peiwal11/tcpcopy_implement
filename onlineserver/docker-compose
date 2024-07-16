@@ -1,0 +1,5 @@
+Services:
+  python_app:
+    command: python3 /usr/local/bin/app.py 
+  tcpcopy: 
+    
