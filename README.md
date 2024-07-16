@@ -14,8 +14,13 @@
     
 ## 2. Can traffic copying still be performed after containerizing tcpcopy and intercept? What are the considerations?
    
-Yes, tcpcopy and intercept can still perform traffic copying after being containerized.   
-However, there are several important considerations to ensure correct functionality.    
+Yes and No.     
+    
+When running each server in separate containers on different servers, the functionality remains intact. However, when the online server is on one server, and both the target and assistant servers are on another server but in different containers, there are issues. Setting them with new static IPs and placing them on the same bridge network while mapping out the ports to communicate with the online server results in unexpected behavior:     
+    
+- On the target server, packets captured indicate that it can no longer establish a standard three-way handshake with the client.     
+- On the assistant server, the sequence numbers do not start from 1, which differs from previous observations when these servers were separated.      
+Overall, tcpcopy and intercept can still perform traffic copying after being containerized, but several important considerations must be addressed to ensure correct functionality.    
 #### Set Net Mode to Host:    
 - Reason: If the network mode is not set to host, there could be issues with IP mapping, preventing tcpcopy and intercept from correctly capturing and handling traffic.
   
