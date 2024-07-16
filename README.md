@@ -43,11 +43,10 @@ However, in case (4), when the online server is on one server and both the targe
 ![weird](images/weird.png)
 _The above image shows packets captured on the online server network interface._    
 - On the target server, packets captured indicate that it can no longer establish a standard three-way handshake with the client.     
-- On the assistant server, the sequence numbers do not start from 1, which differs from previous observations when these servers were separated.      
+- On the assistant server, the sequence numbers do not start from 1, which differs from previous observations when these servers were separated.         
        
-Overall, tcpcopy and intercept can still perform traffic copying after being containerized, but from our observations maybe target server and assistant server should not use bridge network mode.       
-Below are several important considerations must be addressed to ensure correct functionality.       
-    
+Overall, tcpcopy and intercept can still perform traffic copying after being containerized, but from our observations, maybe the target server and assistant server should not use bridge network mode. Below are several important considerations that must be addressed to ensure correct functionality.              
+     
 #### Set Net Mode to Host:    
 - Reason: If the network mode is not set to host, there could be issues with IP mapping, preventing tcpcopy and intercept from correctly capturing and handling traffic.
   
