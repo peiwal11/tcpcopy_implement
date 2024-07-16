@@ -1,7 +1,6 @@
 # TCPCOPY
 
-## Reference
-[https://github.com/session-replay-tools/tcpcopy](https://github.com/session-replay-tools/tcpcopy)
+## Reference:[https://github.com/session-replay-tools/tcpcopy](https://github.com/session-replay-tools/tcpcopy)     
 
 ## Objection
 To evaluate the performance and behavior of `tcpcopy` and `intercept` when containerized under different configurations, ensuring they function correctly and handle network traffic as expected.
@@ -47,14 +46,14 @@ Packet capture occurs at the datalink layer. This capability allows the capture 
 
 ### Experiment Results for Different Configurations      
 #### PG Scenario Observations   
-- Online Server: Shows packets from the target server as if directly communicating with the client, but src MAC address is from the online server.   
-- Target Server: Shows packets purportedly sent from clients but actually from the online server.   
-- Assistant Server: Shows continuous communication with the online server.
+- Online Server: Packets captured from the online server's network interface show communication with the client and assistant server, and fakes client traffic to the target server.    
+- Target Server: Packets captured from the target server's network interface are purportedly sent from clients but actually originate from the online server.      
+- Assistant Server: Packets captured from the assistant server's network interface show continuous communication with the online server.    
 
-#### Python Scenario Observations     
-- Target Server: Believes it is directly communicating with the client, but the src MAC address is from the online server.   
-- Assistant Server: Shows packets routed through it from the target to the client, with src MAC from the target server.   
-- Online Server: Shows communication with the client and assistant server, and fakes client traffic to the target server.
+#### Python Scenario Observations 
+- Online Server: Packets captured from the online server's network interface show communication with the client and assistant server, and fakes client traffic to the target server.   
+- Target Server: Packets captured from the target server's network interface show that it believes it is directly communicating with the client, but the source MAC address is from the online server.      
+- Assistant Server: Packets captured from the assistant server's network interface show packets routed through it from the target to the client, with the source MAC address from the target server.    
 
 ## Conclusion   
 When running each server in separate containers on different servers, as in configurations (1), (2), and (3), the functionality remains intact. However, in configuration (4), placing both the target and assistant servers in different containers on the same server but under different conditions leads to unexpected behavior:         
