@@ -31,10 +31,13 @@ To evaluate the performance and behavior of `tcpcopy` and `intercept` when conta
 - **Reason:** If the network mode is not set to host, there could be issues with IP mapping, preventing `tcpcopy` and `intercept` from correctly capturing and handling traffic.
 - **Action:** Configure the containers to use the host network mode, allowing `tcpcopy` and `intercept` to access network traffic as if they were running directly on the host.
 
-**Add Capability to Container to Have Necessary Permission:**
+**Add Capability to Container to Have Necessary Permission:**   
+    - online server   port 9999 provide service  
+    - target server service on 10.191.7.16:10231   
+    - assistant server on 10.191.7.16    
 - Online server:
   ```   
-   docker run --rm --net="host" --cap-add=NET_RAW --cap-add=NET_ADMIN newtcpcopy -x 9999-10.191.7.11:10231 -s 10.191.7.16     
+   docker run --rm --net="host" --cap-add=NET_RAW --cap-add=NET_ADMIN newtcpcopy -x 9999-10.191.7.16:10231 -s 10.191.7.16     
   ```   
 -  Assistant server:
    ```   
