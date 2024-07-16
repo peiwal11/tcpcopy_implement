@@ -1,0 +1,13 @@
+FROM registry.inventec/proxy/ubuntu:22.04
+
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y python3 
+
+COPY app.py /usr/local/bin/app.py
+
+
+
+RUN chmod +x /usr/local/bin/app.py
+
+CMD ["python","/usr/local/bin/app.py"]
