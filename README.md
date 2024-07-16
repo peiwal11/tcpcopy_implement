@@ -1,4 +1,16 @@
-# TCPCOPY      Reference:https://github.com/session-replay-tools/tcpcopy
+# TCPCOPY        
+# Reference:https://github.com/session-replay-tools/tcpcopy    
+## In this repository, I implement 4 different configurations:      
+- online server on serverA, target server on serverB, assistant server on serverC.    
+  - (1) _Each server running on the host._       
+  -  Each server running in a Docker container:        
+     -  (2) _With  PostgreSQL service_    
+     -  (3) _With Python service_
+- (4）_Online server on Server A, Target server and Assistant server on Server B. Target and Assistant servers are assigned new static IPs. Both servers are placed on the same bridge network. Ports are mapped out on the Server B host to facilitate communication with the Online server._   
+        
+The code provided is from configuration (4). This repository also shows the results of configurations (2), (3), and (4). The results of configuration (1) are similar to those of configurations (2) and (3).    
+
+
 ## 1.	What is the role of the intercept component? Why is it designed this way?
    
 <span style = "background-color: #FFFF00"> The role of the intercept component is to make the target server think it is truly connected to the client. </span> The target server assumes it is communicating with the client, but it is not. Even though the packets captured at the target server show that the source IP is the client and the destination IP is the target server, these IPs are faked by the online server. The client never actually connects to the target server. The online server uses tcpcopy to change the destination IP and send the packets to the target server. When the target server receives these packets, it responds to them.(one may think target response to client directly, yet because of the route rule we add, the next hop would be assistant server instead of client)    
@@ -14,13 +26,25 @@
     
 ## 2. Can traffic copying still be performed after containerizing tcpcopy and intercept? What are the considerations?
    
-Yes and No.     
+### Yes and No.     
     
-When running each server in separate containers on different servers, the functionality remains intact. However, when the online server is on one server, and both the target and assistant servers are on another server but in different containers, there are issues. Setting them with new static IPs and placing them on the same bridge network while mapping out the ports to communicate with the online server results in unexpected behavior:     
-    
+When running each server in separate containers on different servers, as in cases (1), (2), and (3), the functionality remains intact.    
+However, in case (4), when the online server is on one server and both the target and assistant servers are on another server but in different containers, setting them with new static IPs and placing them on the same bridge network while mapping out the ports to communicate with the online server results in unexpected behavior:   
+
+- Target server and assistant server IP: 10.191.7.16   
+- Target container static IP: 192.168.1.10   
+   - Assistant container static IP: 192.168.1.11  
+   - Online server IP: 10.191.7.17   
+- Client IP: 10.190.4.137  
+
+![weird](images/weird.png)
+_The above image shows packets captured on the online server network interface._    
 - On the target server, packets captured indicate that it can no longer establish a standard three-way handshake with the client.     
 - On the assistant server, the sequence numbers do not start from 1, which differs from previous observations when these servers were separated.      
-Overall, tcpcopy and intercept can still perform traffic copying after being containerized, but several important considerations must be addressed to ensure correct functionality.    
+       
+Overall, tcpcopy and intercept can still perform traffic copying after being containerized, but from our observations maybe target server and assistant server should not use bridge network mode.       
+Below are several important considerations must be addressed to ensure correct functionality.       
+    
 #### Set Net Mode to Host:    
 - Reason: If the network mode is not set to host, there could be issues with IP mapping, preventing tcpcopy and intercept from correctly capturing and handling traffic.
   
