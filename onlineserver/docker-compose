@@ -17,6 +17,12 @@ services:
     networks:
       - mdk
     container_name: online_server
+    environment:
+      - service_port= 9999
+      - target_server_IP= 10.191.7.16
+      - target_server_service_port=10231
+      - assistant_server_IP=10.191.7.16
+      
 
 networks:
   mdk:
