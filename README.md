@@ -186,20 +186,14 @@ tcpcopy operates by capturing packets at the data link layer (Layer 2) using lib
    ```
    git clone https://github.com/peiwal11/tcpcopy_implement/tree/master/onlineserver
    ```     
-2. Revise parameters   
-- Online server set up (`entrypoint.sh`)
-   ```
-   /usr/local/tcpcopy/sbin/tcpcopy -x 9999-10.191.7.16:10231 -s 10.191.7.16 
-   ```
-   - 9999: Online server service port  
-   - 10.191.7.16:10231: Target server IP and port  
-   - 10.191.7.16: Assistant server IP  
-- Python service set up (`app.py`)
 
-3. Run docker-compose
+2. Run docker-compose with parameters
    ```  
-   HTTP_PROXY=http://your_proxy_if_needed HTTPS_PROXY=http://your_proxy_if_needed docker-compose up -d     
+   SERVICE_PORT=9999 TARGET_IP=10.191.7.16 TARGET_PORT=10231 ASSISTANT_IP=10.191.7.16 HTTP_PROXY=http://your_proxy_if_needed HTTPS_PROXY=http://your_proxy_if_needed docker-compose up -d     
    ```
+ - 9999: Online server service port  
+ - 10.191.7.16:10231: Target server IP and port
+ - 10.191.7.16: Assistant server IP 
 
 #### Alternative: Build and Run Separately
 
