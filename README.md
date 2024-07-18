@@ -205,8 +205,9 @@ docker build --build-arg http_proxy=http://proxy_address_if_needed --build-arg h
 ```
 
 - __Run Container:__
-```
-docker run --rm --name containername --net=host --cap-add=NET_RAW --cap-add=NET_ADMIN imagename   
+```   
+docker run --rm --name containername --net=host --cap-add=NET_RAW --cap-add=NET_ADMIN -e SERVICE_PORT=9999 -e TARGET_IP=10.191.7.16 -e TARGET_PORT=10231 -e ASSISTANT_IP=10.191.7.16 imagename
+
 ```
 
 
