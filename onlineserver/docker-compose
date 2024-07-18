@@ -1,7 +1,7 @@
 services:
   python_app:
     build: 
-      context: .
+      context: ../python_service
       dockerfile: pydockerfile  
     networks:
       - mdk
