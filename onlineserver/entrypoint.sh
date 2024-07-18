@@ -1,5 +1,5 @@
 #!/bin/sh
 
-/usr/local/tcpcopy/sbin/tcpcopy -x $service_port-$target_server_IP:$target_server_service_port -s $assistant_server_IP 
+/usr/local/tcpcopy/sbin/tcpcopy -x $SERVICE_PORT-$TARGET_IP:$TARGET_PORT -s $ASSISTANT_IP
 	
 
