@@ -8,6 +8,8 @@ services:
     ports:
       - "9999:9999"
     container_name: python_app
+    environment:
+      - SERVICE_PORT=${SERVICE_PORT}
 
   online_server:
     build:
@@ -18,10 +20,10 @@ services:
       - mdk
     container_name: online_server
     environment:
-      - service_port= 9999
-      - target_server_IP= 10.191.7.16
-      - target_server_service_port=10231
-      - assistant_server_IP=10.191.7.16
+      - SERVICE_PORT=${SERVICE_PORT}
+      - TARGET_IP=${TARGET_IP}
+      - TARGET_PORT=${TARGET_PORT}
+      - ASSISTANT_IP=${ASSISTANT_IP}
       
 
 networks:
