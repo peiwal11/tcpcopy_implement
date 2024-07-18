@@ -15,7 +15,7 @@ class Request(BaseHTTPRequestHandler):
 def run():
     server_class = HTTPServer
     handler_class=Request
-    port = int(sys.argv[1]) if len(sys.argv)>1 else  9999
+    port = os.getenv('SERVICE_PORT')
     server_address=('',port)
     print(f"response from: {server_address[0]}:{server_address[1]}\n")
     httpd = server_class(server_address,handler_class)
